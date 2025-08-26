@@ -1,0 +1,56 @@
+import java.util.Arrays;
+
+class Solution {
+    public static int mergee(int array[], int low, int mid, int high) {
+        int temp[] = new int[high - low + 1];
+        int i = low, j = mid + 1, k = 0, count = 0;
+        
+        while (i <= mid && j <= high) {
+            if (array[i] <= array[j]) {
+                temp[k++] = array[i++];
+            } else {
+                temp[k++] = array[j++];
+                count += (mid - i + 1);
+            }
+        }
+        
+        while (i <= mid) {
+            temp[k++] = array[i++];
+        }
+        
+        while (j <= high) {
+            temp[k++] = array[j++];
+        }
+    
+        System.arraycopy(temp, 0, array, low, temp.length);
+        
+        return count;
+    }
+    public static int mergeSort(int array[], int low, int high) {
+        int ans = 0;
+        if (low < high) {
+            int mid = (low + high) / 2;
+            ans += mergeSort(array, low, mid);
+            ans += mergeSort(array, mid + 1, high);
+            ans += mergee(array, low, mid, high);
+        }
+        return ans;
+    }
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int result[] = new int[m + n];
+
+        for (int i = 0; i < m; i++) {
+            result[i] = nums1[i];
+        }
+        for (int i = 0; i < n; i++) {
+            result[i + m] = nums2[i];
+        }
+
+       mergeSort(result, 0, n+m-1);
+
+        // Copy sorted result back to nums1
+        for (int i = 0; i < m + n; i++) {
+            nums1[i] = result[i];
+        }
+    }
+}
