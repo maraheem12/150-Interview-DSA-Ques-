@@ -1,0 +1,29 @@
+import java.util.*;
+
+class RandomizedSet {
+    HashSet<Integer> set = new HashSet<>();
+    List<Integer> list = new ArrayList<>();
+    Random rand = new Random();
+    
+    public RandomizedSet() {
+        System.out.println("null");
+    }
+    
+    public boolean insert(int val) {
+        if (set.contains(val)) return false;
+        set.add(val);
+        list.add(val);
+        return true;
+    }
+    
+    public boolean remove(int val) {
+        if (!set.contains(val)) return false;
+        set.remove(val);
+        list.remove(Integer.valueOf(val)); // Remove by value, not index
+        return true;
+    }
+    
+    public int getRandom() {
+        return list.get(rand.nextInt(list.size()));
+    }
+}
