@@ -1,0 +1,21 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        if (s.length() == 0) return true;
+        int point1 = 0;
+        int point2 = 0;
+        while(point2<t.length()){
+
+            if(s.charAt(point1) == t.charAt(point2)){
+                point1++;
+                point2++;
+            }
+            else{
+                point2++;
+            }
+            if(point1 == s.length()){
+                return true;
+            }
+        }
+        return false;
+    }
+}
