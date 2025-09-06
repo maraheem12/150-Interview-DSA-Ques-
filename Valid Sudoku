@@ -1,0 +1,47 @@
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] freq = new int[26]; // for 'a' to 'z'
+
+        for (char c : magazine.toCharArray()) {
+            freq[c - 'a']++;
+        }
+
+        for (char c : ransomNote.toCharArray()) {
+            if (freq[c - 'a'] == 0) {
+                return false;
+            }
+            freq[c - 'a']--;
+        }
+
+        return true;
+    }
+}
+
+/*Using hashMap */
+
+// class Solution {
+//     public boolean canConstruct(String ransomNote, String magazine) {
+//         HashMap<Character, Integer> from = new HashMap<>();
+//         HashMap<Character, Integer> to = new HashMap<>();
+
+//         for(char c: magazine.toCharArray()){
+//             from.put(c,from.getOrDefault(c,0)+1);
+//         }
+//         for(char c: ransomNote.toCharArray()){
+//             to.put(c,to.getOrDefault(c,0)+1);
+//         }
+
+//         for(char c: ransomNote.toCharArray()){
+//             if(from.containsKey(c)){
+//                 if(!(from.get(c) >= to.get(c))){
+//                     return false;
+//                 }
+//             }
+//             else{
+//                 return false;
+//             }
+//         }
+//         return true;
+
+//     }
+// }
