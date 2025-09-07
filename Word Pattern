@@ -1,0 +1,29 @@
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+ 
+        String splited[] = s.trim().split(" ");
+        int s1 = splited.length;
+        int p1= pattern.length();
+        if(s1 != p1){
+            return false;
+        }
+        HashMap<Character, String> map = new HashMap<>();
+        HashSet<String> seenWords = new HashSet<>();
+        for(int i=0; i<p1; i++){
+            if (!map.containsKey(pattern.charAt(i))) {
+                if (seenWords.contains(splited[i])) {
+                    return false;
+                }
+            map.put(pattern.charAt(i), splited[i]);
+            seenWords.add(splited[i]);
+        }
+        else{
+            if(!splited[i].equals(map.get(pattern.charAt(i)))){
+                return false;
+           }
+        }
+        }
+        
+        return true;
+    }
+}
