@@ -1,0 +1,65 @@
+import java.util.*;
+
+class Solution {
+    public long minCost(int m, int n, int[][] waitCost) {
+        long[][][] dist = new long[m][n][2]; // 0: even, 1: odd
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                Arrays.fill(dist[i][j], Long.MAX_VALUE);
+
+        PriorityQueue<State> pq = new PriorityQueue<>((a, b) -> Long.compare(a.cost, b.cost));
+
+        // Start at (0, 0) at time 1 (odd), entry cost = (1)*(1) = 1
+        dist[0][0][1] = 1;
+        pq.add(new State(0, 0, 1, 1));
+
+        int[] dx = {1, 0}; // down, right
+        int[] dy = {0, 1};
+
+        while (!pq.isEmpty()) {
+            State curr = pq.poll();
+            int i = curr.x, j = curr.y, parity = curr.parity;
+            long cost = curr.cost;
+
+            // If reached destination at any time, return cost
+            if (i == m - 1 && j == n - 1) return cost;
+
+            if (dist[i][j][parity] < cost) continue; // Already found better path
+
+            if (parity == 1) {
+                // Must move to (i+1, j) or (i, j+1)
+                for (int d = 0; d < 2; d++) {
+                    int ni = i + dx[d], nj = j + dy[d];
+                    if (ni >= m || nj >= n) continue;
+                    long entryCost = (long)(ni + 1) * (nj + 1);
+                    if (cost + entryCost < dist[ni][nj][0]) {
+                        dist[ni][nj][0] = cost + entryCost;
+                        pq.add(new State(ni, nj, 0, cost + entryCost));
+                    }
+                }
+            } else {
+                // Must wait at current cell
+                long wait = waitCost[i][j];
+                if (cost + wait < dist[i][j][1]) {
+                    dist[i][j][1] = cost + wait;
+                    pq.add(new State(i, j, 1, cost + wait));
+                }
+            }
+        }
+
+        return -1; // Should never reach here
+    }
+
+    class State {
+        int x, y, parity;
+        long cost;
+
+        State(int x, int y, int parity, long cost) {
+            this.x = x;
+            this.y = y;
+            this.parity = parity;
+            this.cost = cost;
+        }
+    }
+}
+
