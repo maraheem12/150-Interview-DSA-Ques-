@@ -1,0 +1,35 @@
+public class Solution {
+    public int[][] specialGrid(int N) {
+        int size = 1 << N; // 2^N
+        return buildGrid(size, 0);
+    }
+
+    private int[][] buildGrid(int size, int start) {
+        if (size == 1) {
+            return new int[][]{{start}};
+        }
+
+        int half = size / 2;
+        int area = half * half;
+
+        // Recursively build each quadrant
+        int[][] topRight = buildGrid(half, start);
+        int[][] bottomRight = buildGrid(half, start + area);
+        int[][] bottomLeft = buildGrid(half, start + 2 * area);
+        int[][] topLeft = buildGrid(half, start + 3 * area);
+
+        // Combine quadrants into one grid
+        int[][] grid = new int[size][size];
+
+        for (int i = 0; i < half; i++) {
+            for (int j = 0; j < half; j++) {
+                grid[i][j] = topLeft[i][j];
+                grid[i][j + half] = topRight[i][j];
+                grid[i + half][j] = bottomLeft[i][j];
+                grid[i + half][j + half] = bottomRight[i][j];
+            }
+        }
+
+        return grid;
+    }
+}
