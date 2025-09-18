@@ -1,0 +1,37 @@
+class Solution {
+    public static boolean isInteger(String num){
+        try{
+            Integer.parseInt(num);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for(String i: tokens){
+            if(isInteger(i)){
+                stack.push(Integer.parseInt(i));
+            }
+            else{
+                int num1 = stack.pop();
+                int num2 = stack.pop();
+                switch(i){
+                    case "+":
+                      stack.push((num2+num1));
+                      break;
+                    case "-":
+                      stack.push((num2-num1));
+                      break;
+                    case "*":
+                      stack.push((num2*num1));
+                      break;
+                    case "/":
+                      stack.push((num2/num1));
+                      break;
+                }
+            }
+        }
+        return stack.pop();
+    }
+}
