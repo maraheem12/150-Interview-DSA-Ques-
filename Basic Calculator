@@ -2,7 +2,8 @@ import java.util.Stack;
 
 class Solution {
     public int calculate(String s) {
-        
+
+
         Stack<Integer> stack = new Stack<>();
         int result = 0;
         int sign = 1; 
