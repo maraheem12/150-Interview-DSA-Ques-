@@ -12,13 +12,11 @@ public class Solution {
         int half = size / 2;
         int area = half * half;
 
-        // Recursively build each quadrant
+        
         int[][] topRight = buildGrid(half, start);
         int[][] bottomRight = buildGrid(half, start + area);
         int[][] bottomLeft = buildGrid(half, start + 2 * area);
         int[][] topLeft = buildGrid(half, start + 3 * area);
-
-        // Combine quadrants into one grid
         int[][] grid = new int[size][size];
 
         for (int i = 0; i < half; i++) {
